@@ -1,0 +1,12 @@
+.responsive {
+  width: 47%;
+  height: auto;
+}
+
+.bg-dark {
+  background-color: #000000 !important;
+}
+
+.navbar-dark {
+  background-color: #000000 !important;
+}

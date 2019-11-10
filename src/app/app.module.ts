@@ -7,9 +7,10 @@ import { ConvexHullComponent } from "./convex-hull/convex-hull.component";
 import { ChartsModule, ThemeService } from "ng2-charts";
 import { slopeLinePlugin } from "./convex-hull/line-draw-plugin";
 import { QuickHull } from "./convex-hull/convex-hull-algo";
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, ConvexHullComponent],
+  declarations: [AppComponent, ConvexHullComponent, HeaderComponent],
   imports: [BrowserModule, AppRoutingModule, ChartsModule],
   providers: [slopeLinePlugin, QuickHull, ThemeService],
   bootstrap: [AppComponent]
