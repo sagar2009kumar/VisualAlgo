@@ -1,25 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { defaultColors, ChartsModule } from "ng2-charts";
-import { Chart } from "chart.js";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { defaultColors, ChartsModule, ThemeService } from "ng2-charts";
+import { Chart, ChartOptions } from "chart.js";
 import { slopeLinePlugin } from "./line-draw-plugin";
+import { QuickHull } from "./convex-hull-algo";
+import { Point } from "./convex-hull-algo";
 
 @Component({
   selector: "app-convex-hull",
   templateUrl: "./convex-hull.component.html",
   styleUrls: ["./convex-hull.component.css"]
 })
-export class ConvexHullComponent implements OnInit {
-  public bubbleChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    plugins: {
-      linedraw: {
-        lineAtIndex: [0, 1]
-      }
-    }
-  };
-
+export class ConvexHullComponent implements OnInit, AfterViewInit {
   public bubbleChartColor = defaultColors;
+  public convexHull;
+  public bubbleChartOptions;
 
   public bubbleChartColorBackup = [
     "rgb(255, 99, 132)",
@@ -31,6 +25,7 @@ export class ConvexHullComponent implements OnInit {
     "rgb(201, 203, 207)"
   ];
 
+  private _selectedTheme = "dark-theme";
   public bubbleChartLabels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   public bubbleChartType = "bubble";
   public bubbleChartLegend = false;
@@ -38,15 +33,67 @@ export class ConvexHullComponent implements OnInit {
     { data: { x: -22, y: 22, r: 10 }, label: "200" },
     { data: { x: 22, y: 21, r: 10 }, label: "200" },
     { data: { x: 12, y: 18, r: 10 }, label: "200" },
+    { data: { x: 14, y: 16, r: 10 }, label: "200" },
+    { data: { x: -10, y: 11, r: 10 }, label: "200" },
+    { data: { x: 4, y: 4, r: 10 }, label: "200" },
     {
       data: { x: 19, y: 14, r: 10 },
       label: "200"
     }
   ];
 
-  constructor(private slopeLinePlugin: slopeLinePlugin) {}
-
-  ngOnInit() {
-    Chart.pluginService.register(this.slopeLinePlugin.verticalLinePlugin);
+  constructor(
+    private slopeLinePlugins: slopeLinePlugin,
+    private themeService: ThemeService,
+    private quickHull: QuickHull
+  ) {
+    const pointArr = [];
+    this.bubbleChartData.forEach((element, index) => {
+      pointArr.push(new Point(element.data.x, element.data.y, index, 0));
+    });
+    this.convexHull = this.quickHull.getConvexHull(pointArr);
+    this.bubbleChartOptions = {
+      scaleShowVerticalLines: false,
+      responsive: true,
+      plugins: {
+        linedraw: {
+          lineAtIndex: this.convexHull
+        }
+      }
+    };
+    Chart.plugins.register(this.slopeLinePlugins.verticalLinePlugin);
   }
+
+  ngOnInit() {}
+
+  selectedTheme(value: string) {
+    this._selectedTheme = value;
+    let overrides: ChartOptions;
+    if (this._selectedTheme === "dark-theme") {
+      overrides = {
+        legend: {
+          labels: { fontColor: "white" }
+        },
+        scales: {
+          xAxes: [
+            {
+              ticks: { fontColor: "white" },
+              gridLines: { color: "rgba(255,255,255,0.1)" }
+            }
+          ],
+          yAxes: [
+            {
+              ticks: { fontColor: "white" },
+              gridLines: { color: "rgba(255,255,255,0.1)" }
+            }
+          ]
+        }
+      };
+    } else {
+      overrides = {};
+    }
+    this.themeService.setColorschemesOptions(overrides);
+  }
+
+  ngAfterViewInit() {}
 }
