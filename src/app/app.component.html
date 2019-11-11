@@ -1,2 +1,5 @@
-<app-header></app-header>
-<app-convex-hull></app-convex-hull>
+<app-header></app-header> <app-convex-hull></app-convex-hull
+><app-convex-hull-footer
+  (dataSetAdd)="informCVAdd($event)"
+  (dataSetRemove)="informCVRemove($event)"
+></app-convex-hull-footer>

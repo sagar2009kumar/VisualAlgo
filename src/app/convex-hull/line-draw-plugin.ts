@@ -22,38 +22,22 @@ export class slopeLinePlugin {
       const context = chartInstance.chart.ctx;
 
       // render vertical line
-      context.beginPath();
-      context.strokeStyle = "#22cf4a";
+      context.beginPath(); //#22cf4a
+      context.strokeStyle = "#000000";
+      context.setLineDash([10, 5]);
       context.moveTo(initPoint.x, initPoint.y);
       context.lineTo(finalPoint.x, finalPoint.y);
       context.stroke();
     },
 
-    renderLastLine(chartInstance) {
-      const initPoint = this.getLinePosition(
-        chartInstance,
-        this.cvHullPoints[this.n - 1]
-      );
-      const finalPoint = this.getLinePosition(chartInstance, 0);
-      const scale = chartInstance.scales["y-axis-0"];
-      const context = chartInstance.chart.ctx;
-
-      // render vertical line
-      context.beginPath();
-      context.strokeStyle = "#22cf4a";
-      context.moveTo(initPoint.x, initPoint.y);
-      context.lineTo(finalPoint.x, finalPoint.y);
-      context.stroke();
-    },
-
-    afterEvent(chart, easing) {
+    afterRender(chart, click) {
       this.cvHullPoints = chart.config.options.plugins.linedraw.lineAtIndex;
       this.n = this.cvHullPoints.length;
+      console.log(chart.config);
       if (this.cvHullPoints) {
         this.cvHullPoints.forEach((pointIndex, index) =>
           this.renderVerticalLine(chart, pointIndex, index)
         );
-        this.renderLastLine(chart);
       }
     }
   };

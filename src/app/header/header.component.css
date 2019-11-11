@@ -1,6 +1,9 @@
 .responsive {
   width: 47%;
   height: auto;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
 }
 
 .bg-dark {
