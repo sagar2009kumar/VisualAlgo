@@ -1,7 +1,7 @@
 .responsive {
+  position: sticky;
   width: 47%;
   height: auto;
-  position: sticky;
   top: 0px;
   z-index: 1;
 }
@@ -12,4 +12,13 @@
 
 .navbar-dark {
   background-color: #000000 !important;
+}
+
+.sticky {
+  background-color: #000000 !important;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  right: 0;
 }

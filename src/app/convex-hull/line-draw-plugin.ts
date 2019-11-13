@@ -24,7 +24,7 @@ export class slopeLinePlugin {
       // render vertical line
       context.beginPath(); //#22cf4a
       context.strokeStyle = "#000000";
-      context.setLineDash([10, 5]);
+      context.setLineDash([100, 5]);
       context.moveTo(initPoint.x, initPoint.y);
       context.lineTo(finalPoint.x, finalPoint.y);
       context.stroke();
