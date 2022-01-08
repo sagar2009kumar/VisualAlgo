@@ -14,6 +14,8 @@ RUN mkdir -p $NODE_ROOT
 # Sets the /usr/app as the active directory
 WORKDIR $NODE_ROOT
 
+RUN npm cache clean --force
+
 # Install angular cli globally
 RUN npm install -g @angular/cli
 
@@ -25,6 +27,6 @@ RUN npm install
 COPY . $NODE_ROOT
 
 # The default port from ng serve (4200)
-# and 49153 for Webpack Hot Module Reload
+# ad 49153 for Webpack Hot Module Reload
 EXPOSE 4200 49153
-CMD npm start
+CMD ng serve --host 0.0.0.0:4200

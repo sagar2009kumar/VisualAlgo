@@ -39,6 +39,10 @@ export class slopeLinePlugin {
           this.renderVerticalLine(chart, pointIndex, index)
         );
       }
+    },
+
+    chartClicked(chart, click) {
+      console.log("hello");
     }
   };
 }

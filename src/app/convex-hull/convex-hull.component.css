@@ -1,3 +1,8 @@
 canvas {
   margin: 10px;
 }
+
+.background-picker {
+  background: #0e1316;
+  width: 10%;
+}

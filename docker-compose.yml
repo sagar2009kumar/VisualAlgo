@@ -1,0 +1,15 @@
+version: "3.6"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/dev/Dockerfile
+    ports:
+      - "4200:4200"
+      - "49153:49153"
+    expose:
+      - "4200"
+      - "49153"
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules

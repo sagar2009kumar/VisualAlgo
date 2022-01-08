@@ -16,9 +16,16 @@
 
 .sticky {
   background-color: #000000 !important;
-  position: relative;
   top: 0;
   left: 0;
   z-index: 10;
   right: 0;
+}
+
+nav.navbar.navbar-expand-sm.bg-dark {
+  top: 0;
+  position: sticky;
+}
+.navbar.navbar-expand-sm.bg-dark.navbar-dark.sticky-header .nav-link {
+  padding: 0px 1rem;
 }

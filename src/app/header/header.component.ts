@@ -20,10 +20,11 @@ export class HeaderComponent implements OnInit {
   changeHeaderClass(event) {
     // console.debug("Scroll Event", document.body.scrollTop);
     // see András Szepesházi's comment below
-    if (window.pageYOffset > 8) {
+    if (window.scrollY < 8) {
       this.currentClass = "navbar navbar-expand-sm bg-dark sticky";
     } else {
-      //this.currentClass = "navbar navbar-expand-sm bg-dark navbar-dark";
+      this.currentClass =
+        "navbar navbar-expand-sm bg-dark navbar-dark sticky-header";
     }
   }
 }

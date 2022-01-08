@@ -5,7 +5,7 @@
   background-color: black;
   color: white;
   text-align: center;
-  padding-top: 15px;
+  padding-top: 10px;
   display: flex;
 }
 
@@ -19,4 +19,9 @@
   display: flex;
   margin-bottom: 10px;
   margin-left: 40%;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
 }

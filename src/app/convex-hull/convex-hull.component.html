@@ -9,4 +9,13 @@
     [chartType]="bubbleChartType"
   >
   </canvas>
+  <input
+    [(colorPicker)]="selectedColor"
+    [style.background]="selectedColor"
+    [cpOutputFormat]="rbga"
+    [cpWidth]="100"
+    [cpHeight]="100"
+    [cpOKButton]="true"
+    class="background-picker"
+  />
 </div>

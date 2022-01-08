@@ -29,6 +29,7 @@ export class ConvexHullComponent implements OnInit, AfterViewInit {
   public bubbleChartOptions;
   public MIN_XY = -50;
   public MAX_XY = 50;
+  public selectedColor = "#081f3e";
   // Now you can reference your chart via `this.chart`
 
   // tslint:disable-next-line: variable-name
@@ -90,31 +91,81 @@ export class ConvexHullComponent implements OnInit, AfterViewInit {
         linedraw: {
           lineAtIndex: this.convexHull
         }
+      },
+      elements: {
+        point: {
+          backgroundColor: () => {
+            return this.selectedColor;
+          },
+
+          borderColor: this.colorize.bind(null, true),
+
+          borderWidth: context => {
+            return Math.min(Math.max(1, context.datasetIndex + 1), 8);
+          },
+
+          hoverBackgroundColor: "rgb(153, 204, 0)",
+
+          hover: () => {
+            console.log("hello");
+          }
+        }
+      },
+      onClick: event => {
+        if (event.detail === 1) {
+          // it was a single click
+          //this.chartClicked(event);
+          /*  console.log(this.chart.toBase64Image());
+          console.log(this.chart.data);
+          console.log(this.chart.getElementsAtEvent(event)); */
+        } else if (event.detail === 2) {
+          // it was a double click
+          console.log(event.detail);
+        }
+      },
+      chartClick: event => {
+        console.log("hll");
       }
     };
     Chart.plugins.register(this.slopeLinePlugins.verticalLinePlugin);
   }
 
-  ngOnInit() {}
+  colorize(opaque, context) {
+    var value = { x: 102, y: 107, v: 103 };
+    var x = value.x / 100;
+    var y = value.y / 100;
+    var r = x < 0 && y < 0 ? 250 : x < 0 ? 150 : y < 0 ? 50 : 0;
+    var g = x < 0 && y < 0 ? 0 : x < 0 ? 50 : y < 0 ? 150 : 250;
+    var b = x < 0 && y < 0 ? 0 : x > 0 && y > 0 ? 250 : 150;
+    var a = opaque ? 1 : (0.5 * value.v) / 1000;
+
+    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+  }
+
+  ngOnInit() {
+    this.selectedTheme(this._selectedTheme);
+  }
 
   selectedTheme(value: string) {
     this._selectedTheme = value;
     let overrides: ChartOptions;
-    if (this._selectedTheme === "dark-theme") {
+    if (this._selectedTheme === "dark-them") {
       overrides = {
         legend: {
-          labels: { fontColor: "white" }
+          labels: { fontColor: "blue" }
         },
         scales: {
           xAxes: [
             {
-              ticks: { fontColor: "white" },
-              gridLines: { color: "rgba(255,255,255,0.1)" }
+              ticks: { fontColor: "blue" },
+              gridLines: {
+                color: "rgba(255,255,255,0.1)"
+              }
             }
           ],
           yAxes: [
             {
-              ticks: { fontColor: "white" },
+              ticks: { fontColor: "blue" },
               gridLines: { color: "rgba(255,255,255,0.1)" }
             }
           ]
@@ -177,4 +228,15 @@ export class ConvexHullComponent implements OnInit, AfterViewInit {
     this._seed = (seed * 9301 + 49297) % 233280;
     return min + (this._seed / 233280) * (max - min);
   }
+
+  /* chartClicked(event) {
+    var activePoints = this.chart.getElementsAtEvent(event);
+  var firstPoint = activePoints[0];
+  if(firstPoint !== undefined){
+    var label = this.chart.data[0].labels[firstPoint._index];
+    var value = this.chart.data[0].datasets[firstPoint._datasetIndex].data[firstPoint._index];
+
+    alert(label + ": " + value.x);
+    alert(label + ": " + value.y);
+  } */
 }
